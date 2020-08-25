@@ -1,7 +1,7 @@
 import { Map, fromJS } from 'immutable';
 import { MESSAGES_TYPES, MESSAGE_SENDER, SESSION_NAME } from 'constants';
 
-import { Video, Image, Message, Carousel, Buttons } from 'messagesComponents';
+import { Video, Image, Message, Carousel, Buttons, Datepicker } from 'messagesComponents';
 
 export function createNewMessage(text, sender, nextMessageIsTooltip, hidden) {
   return Map({
@@ -25,6 +25,18 @@ export function createCarousel(carousel, sender) {
     timestamp: new Date().getTime()
   });
 }
+
+export function createDatepicker(datepicker, sender) {
+  console.log("Creates the datepicker", datepicker);
+  return Map({
+    type: MESSAGES_TYPES.DATEPICKER,
+    component: Datepicker,
+    sender,
+    elements: fromJS(datepicker.attachment.payload.elements),
+    timestamp: new Date().getTime()
+  });
+}
+
 
 export function createVideoSnippet(video, sender) {
   return Map({

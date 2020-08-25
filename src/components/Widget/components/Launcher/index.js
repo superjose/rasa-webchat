@@ -10,7 +10,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 import { MESSAGES_TYPES } from 'constants';
-import { Image, Message, Buttons } from 'messagesComponents';
+import { Image, Message, Buttons, Datepicker } from 'messagesComponents';
 import { showTooltip as showTooltipAction } from 'actions';
 import { onRemove } from 'utils/dom';
 
@@ -105,6 +105,9 @@ const Launcher = ({
         }
         case MESSAGES_TYPES.BUTTONS: {
           return Buttons;
+        }
+        case MESSAGES_TYPES.DATEPICKER: {
+          return Datepicker
         }
         default:
           return null;

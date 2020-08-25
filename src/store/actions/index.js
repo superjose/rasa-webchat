@@ -109,6 +109,13 @@ export function addCarousel(carousel) {
     carousel
   };
 }
+export function addDatepicker(datepicker) {
+  console.log("Returned the datepicker action for the dispatcher");
+  return {
+    type: actions.ADD_DATEPICKER,
+    datepicker
+  };
+}
 
 export function addVideoSnippet(video) {
   return {

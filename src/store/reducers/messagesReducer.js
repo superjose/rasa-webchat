@@ -9,7 +9,8 @@ import {
   createImageSnippet,
   createComponentMessage,
   storeMessageTo,
-  getLocalSession
+  getLocalSession,
+  createDatepicker
 } from './helper';
 
 import * as actionTypes from '../actions/actionTypes';
@@ -41,6 +42,10 @@ export default function (storage) {
       }
       case actionTypes.ADD_CAROUSEL: {
         return storeMessage(state.push(createCarousel(action.carousel, MESSAGE_SENDER.RESPONSE)));
+      }
+      case actionTypes.ADD_DATEPICKER: {
+        console.log("Reducer ADD_DATEPICKER reached")
+        return storeMessage(state.push(createDatepicker(action.datepicker, MESSAGE_SENDER.RESPONSE)));
       }
       case actionTypes.ADD_NEW_VIDEO_VIDREPLY: {
         return storeMessage(state.push(createVideoSnippet(action.video, MESSAGE_SENDER.RESPONSE)));

@@ -31,3 +31,13 @@ export function isButtons(message) {
     && Object.keys(message).includes('text')
     && (Object.keys(message).includes('quick_replies') || Object.keys(message).includes('buttons'));
 }
+
+// I think this can be simplified to:
+// message?.attachment?.payload?.elements?.type === "date_picker";
+export function isDatepicker(message) {
+  return message?.attachment?.payload?.elements?.type === "date_picker";
+//   return Object.keys(message).includes('attachment') 
+//     && Object.keys(message.attachment).includes('payload')
+//     && Object.keys(message.attachment.payload).includes('elements')
+//      && Object.keys(message.attachment.payload.elements).includes('type')
+}

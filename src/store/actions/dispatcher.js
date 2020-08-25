@@ -36,6 +36,10 @@ export function addResponseMessage(text) {
 export function addCarousel(carousel) {
   store.dispatch(actions.addCarousel(carousel));
 }
+export function addDatepicker(datepicker) {
+  console.log("Store dispatch datepicker", datepicker);
+  store.dispatch(actions.addDatepicker(datepicker));
+}
 
 export function addVideoSnippet(video) {
   store.dispatch(actions.addVideoSnippet(video));

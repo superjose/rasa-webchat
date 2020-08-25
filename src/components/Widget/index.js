@@ -12,6 +12,7 @@ import {
   emitUserMessage,
   addResponseMessage,
   addCarousel,
+  // addDatepicker,
   addVideoSnippet,
   addImageSnippet,
   addButtons,
@@ -31,11 +32,11 @@ import {
   changeOldUrl,
   setDomHighlight,
   evalUrl,
-  setCustomCss
+  setCustomCss,
 } from 'actions';
 
 import { SESSION_NAME, NEXT_MESSAGE } from 'constants';
-import { isVideo, isImage, isButtons, isText, isCarousel } from './msgProcessor';
+import { isVideo, isImage, isButtons, isText, isCarousel, isDatepicker } from './msgProcessor';
 import WidgetLayout from './layout';
 import { storeLocalSession, getLocalSession } from '../../store/reducers/helper';
 
@@ -151,8 +152,8 @@ class Widget extends Component {
 
   handleMessageReceived(messageWithMetadata) {
     const { dispatch, isChatOpen, disableTooltips } = this.props;
-    console.log('Message With Metadata', messageWithMetadata);
-    // we extract metadata so we are sure it does not interfere with type checking of the message
+
+    // we extract metadata so we are sure it does not interfer with type checking of the message
     const { metadata, ...message } = messageWithMetadata;
     if (!isChatOpen) {
       this.dispatchMessage(message);
@@ -533,7 +534,11 @@ class Widget extends Component {
     }
     const { customCss, ...messageClean } = message;
 
-    if (isText(messageClean)) {
+    if (isDatepicker(messageClean)) {
+      console.log("Datepicker mesasge clean")
+      // this.props.dispatch(addDatepicker(messageClean));
+    }
+    else if (isText(messageClean)) {
       this.props.dispatch(addResponseMessage(messageClean.text));
     } else if (isButtons(messageClean)) {
       this.props.dispatch(addButtons(messageClean));

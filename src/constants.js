@@ -18,7 +18,8 @@ export const MESSAGES_TYPES = {
     IMAGE: 'imgreply'
   },
   BUTTONS: 'buttons',
-  CUSTOM_COMPONENT: 'component'
+  CUSTOM_COMPONENT: 'component',
+  DATEPICKER: 'datepicker'
 };
 
 const replybuttons = PropTypes.shape({
@@ -43,7 +44,8 @@ export const PROP_TYPES = {
       MESSAGES_TYPES.BUTTONS,
       MESSAGES_TYPES.CAROUSEL,
       MESSAGES_TYPES.IMGREPLY.IMAGE,
-      MESSAGES_TYPES.VIDREPLY.VIDEO
+      MESSAGES_TYPES.VIDREPLY.VIDEO,
+      MESSAGES_TYPES.DATEPICKER
     ]),
     id: PropTypes.number,
     text: PropTypes.string,
@@ -59,6 +61,16 @@ export const PROP_TYPES = {
         imageUrl: PropTypes.string,
         buttons: ImmutablePropTypes.listOf(replybuttons),
         defaultActions: replybuttons
+      })),
+    sender: senderType
+  }),
+  DATEPICKER: ImmutablePropTypes.contains({
+    id: PropTypes.number,
+    elements: ImmutablePropTypes.listOf(
+      ImmutablePropTypes.mapContains({
+        type: PropTypes.string,
+        value: PropTypes.string,
+        title: PropTypes.string
       })),
     sender: senderType
   }),
