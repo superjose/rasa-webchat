@@ -9,6 +9,7 @@ import {
     Buttons,
     Datepicker,
     DropdownDual,
+    MultiSelect
 } from 'messagesComponents';
 
 export function createNewMessage(text, sender, nextMessageIsTooltip, hidden) {
@@ -41,6 +42,15 @@ export function createDatepicker(datepicker, sender) {
         component: Datepicker,
         sender,
         elements: fromJS(datepicker.attachment.payload.elements),
+        timestamp: new Date().getTime(),
+    });
+}
+export function createMultiSelect(multiSelect, sender) {
+    return Map({
+        type: MESSAGES_TYPES.MULTI_SELECT,
+        component: MultiSelect,
+        sender,
+        elements: fromJS(multiSelect.attachment.payload.elements),
         timestamp: new Date().getTime(),
     });
 }

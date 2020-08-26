@@ -14,6 +14,7 @@ import {
     addCarousel,
     addDatepicker,
     addDropdownDual,
+    addMultiSelect,
     addVideoSnippet,
     addImageSnippet,
     addButtons,
@@ -45,6 +46,7 @@ import {
     isCarousel,
     isDatepicker,
     isDropdownDual,
+    isMultiSelect,
 } from './msgProcessor';
 import WidgetLayout from './layout';
 import { storeLocalSession, getLocalSession } from '../../store/reducers/helper';
@@ -566,13 +568,14 @@ class Widget extends Component {
         }
         const { customCss, ...messageClean } = message;
         console.log('Message is', message);
-        console.log('MessageClean is', messageClean);
         if (isDatepicker(messageClean)) {
-            console.log('isDatepicker reached');
             this.props.dispatch(addDatepicker(messageClean));
         } else if (isDropdownDual(messageClean)) {
             this.props.dispatch(addDropdownDual(messageClean));
-        } else if (isText(messageClean)) {
+        } else if(isMultiSelect(messageClean)) {
+          this.props.dispatch(addMultiSelect(messageClean));
+        }        
+        else if (isText(messageClean)) {
             this.props.dispatch(addResponseMessage(messageClean.text));
         } else if (isButtons(messageClean)) {
             this.props.dispatch(addButtons(messageClean));

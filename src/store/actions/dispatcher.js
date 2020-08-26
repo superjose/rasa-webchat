@@ -41,6 +41,12 @@ export function addDatepicker(datepicker) {
   store.dispatch(actions.addDatepicker(datepicker));
 }
 
+
+export function addMultiSelect(multiSelect) {
+  store.dispatch(actions.addMultiSelect(multiSelect));
+}
+
+
 export function addVideoSnippet(video) {
   store.dispatch(actions.addVideoSnippet(video));
 }

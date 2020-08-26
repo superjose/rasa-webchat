@@ -8,6 +8,7 @@ import {
     createVideoSnippet,
     createImageSnippet,
     createComponentMessage,
+    createMultiSelect,
     storeMessageTo,
     getLocalSession,
     createDatepicker,
@@ -49,8 +50,6 @@ export default function(storage) {
                 );
             }
             case actionTypes.ADD_DATEPICKER: {
-                console.log('Reducer ADD_DATEPICKER reached');
-                console.log('Reducer action.datepicker', action.datepicker);
                 return storeMessage(
                     state.push(createDatepicker(action.datepicker, MESSAGE_SENDER.RESPONSE))
                 );
@@ -58,6 +57,11 @@ export default function(storage) {
             case actionTypes.ADD_DROPDOWN_DUAL: {
                 return storeMessage(
                     state.push(createDropdownDual(action.dropdownDual, MESSAGE_SENDER.RESPONSE))
+                );
+            }
+            case actionTypes.ADD_MULTI_SELECT: {
+                return storeMessage(
+                    state.push(createMultiSelect(action.multiSelect, MESSAGE_SENDER.RESPONSE))
                 );
             }
             case actionTypes.ADD_NEW_VIDEO_VIDREPLY: {

@@ -7,117 +7,74 @@ import { addUserMessage, emitUserMessage } from 'actions';
 import { PROP_TYPES } from 'constants';
 import ThemeContext from '../../../../../../ThemeContext';
 
-import './styles.scss';
-import { Dropdown } from './components';
 
 const MultiSelect = props => {
-    const multiselect = props.message.toJS();
-    const { elements } = multiselect;
-    const {
-        title,
-        payload,
-        value: { first, second },
-    } = elements;
-
-    console.log('Props is', props);
-    console.log('MultiSelect in JS', multiselect);
-    // const { mainColor, assistTextColor } = useContext(ThemeContext);
-    // const { linkTarget } = props;
-    const [firstDropdownValue, setFirstDropdownValue] = useState('');
-    const [secondDropdownValue, setSecondDropdownValue] = useState('');
     const { chooseReply } = props;
+    const { elements } = props.message.toJS();
+    console.log('MultiSelect in JS', elements);
+    const { title, value, payload, entity } = elements;
+    const [page, setPage] = useState(0);
+    const [selected, setSelected] = useState([]);
 
-    const setFirstDropdown = e => {
-        console.log('Setting first dropdown', e);
-        console.log('Setting first dropdown value', e.target.value);
-        setFirstDropdownValue(e.target.value);
-    };
-
-    const setSecondDropdown = e => {
-        console.log(e);
-        setSecondDropdownValue(e.target.value);
-    };
-
-    const firstDropdownOptions = useMemo(
-        () =>
-            [
-                {
-                    label: `Seleccione ${first.title}`,
-                    value: '',
-                },
-            ].concat(
-                first.values.map(f => ({
-                    label: f,
-                    value: f,
-                }))
-            ),
-        [first]
-    );
-
-    const secondDropdownOptions = useMemo(() => {
-        const defaultDropdown = [
-            {
-                label: `Seleccione ${second.title}`,
-                value: '',
-            },
-        ];
-        if (!firstDropdownValue) {
-            return defaultDropdown;
+    // Splits the list into different groups:
+    const pages = useMemo(() => {
+        const _pages = [];
+        if (!value) {
+            return _pages;
         }
-        console.log('Reached here');
-        const secondValues = second?.values[firstDropdownValue];
-        console.log('Second values is', secondValues);
-        if (!secondValues) {
-            console.error("Second Dropdown is not found from the first one");
-            return defaultDropdown;
+        // We get 4 elements per page.
+        // This number (4) could be a prop.
+        const totalPages = Math.ceil(value.length / 4);
+
+        for (let i = 0; i < totalPages; i++) {
+            const _page = value.slice(i * 4, (i + 1) * 4);
+            _pages.push(_page);
         }
+        return _pages;
+    }, [value]);
 
-        return secondValues?.map(s => ({
-            label: s,
-            value: s,
-        }));
-    }, [second, firstDropdownValue]);
-
-    const submit = () => {
-        if (!firstDropdownValue || !secondDropdownValue) {
+    const onChange = e => {
+        const val = e.target.value;
+        const valueIndex = selected.indexOf(val);
+        if (valueIndex === -1) {
+            setSelected(selected.concat(val));
             return;
         }
-        const firstEntity = first.entity;
-        const secondEntity = second.entity;
-        const formedPayload =
-            payload +
-            `{"${firstEntity}": "${firstDropdownValue}", "${secondEntity}": "${secondDropdownValue}"}`;
-        console.log('Formed Payload is ', formedPayload);
-        chooseReply(formedPayload, `${firstDropdownValue} ${secondDropdownValue}`);
+        const removed = selected.splice(valueIndex, -1);
+        setSelected(removed);
+    };
+
+    const continueOrSubmit = () => {
+        if (page !== pages.length - 1) {
+            setPage(page+1);
+            return;
+        } 
+        const values = value.join(",");
+        const formPayload = `${payload}{"${entity}": "${values}"}`;
+        chooseReply(formPayload, values);
     };
 
     return (
         <>
             {title}
             <br />
-            <Dropdown
-                label={first.title}
-                options={firstDropdownOptions}
-                onChange={setFirstDropdown}
-            />
-            <Dropdown
-                label={second.title}
-                options={secondDropdownOptions}
-                onChange={setSecondDropdown}
-            />
+            {pages[page].map(p => (
+                <label key={p}>
+                    {p} <input type="checkbox" value={p} onChange={onChange} />
+                </label>
+            ))}
             <button
                 type="button"
-                onClick={submit}
-                disabled={!firstDropdownValue || !secondDropdownValue}
+                onClick={continueOrSubmit}
             >
-                Enviar
+                Continuar
             </button>
         </>
     );
 };
 
 MultiSelect.propTypes = {
-    message: PROP_TYPES.DROPDOWN_DUAL,
+    message: PROP_TYPES.MULTI_SELECT,
     // completely bugged, it's actually used in handle click
     // eslint-disable-next-line react/no-unused-prop-types
     chooseReply: PropTypes.func.isRequired,

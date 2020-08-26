@@ -9,26 +9,36 @@ import ThemeContext from '../../../../../../ThemeContext';
 import './styles.scss';
 
 const Datepicker = props => {
-    const datepicker = props.message.toJS();
+    const {elements} = props.message.toJS();
+    const [date, setDate] = useState();
+    const {entity, title, payload} = elements;
+    const { chooseReply } = props;
     console.log('Props is', props);
-    console.log('Date Picker in JS', datepicker);
+    console.log('Date Picker in JS', elements);
     // const { mainColor, assistTextColor } = useContext(ThemeContext);
     // const { linkTarget } = props;
 
     const onChange = e => {
-        const title = e.target.value;
-        console.log('Title is', title);
-        const { chooseReply } = props;
-        console.log(chooseReply);
-        chooseReply(datepicker.elements.payload, title);
+        const val = e.target.value;
+        setDate(val);
     };
 
+    const onSubmit = () => {
+        if (!date) {
+            return;
+        }
+        const formPayload = payload+`{"${entity}":"${date}"}`
+        chooseReply(formPayload, date);
+    };
     return (
         <>
             <label>
-                {datepicker.elements.title}
+                {title}
                 <input type="date" onChange={onChange} />
             </label>
+            <button type="button" disabled={!date} onClick={onSubmit}>
+                Enviar
+            </button>
         </>
     );
 };

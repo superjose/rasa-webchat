@@ -72,10 +72,10 @@ const DropdownDual = props => {
             return defaultDropdown;
         }
 
-        return secondValues?.map(s => ({
+        return defaultDropdown.concat(secondValues?.map(s => ({
             label: s,
             value: s,
-        }));
+        })));
     }, [second, firstDropdownValue]);
 
     const submit = () => {

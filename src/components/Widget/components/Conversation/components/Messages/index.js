@@ -12,6 +12,7 @@ import {
     Buttons,
     Datepicker,
     DropdownDual,
+    MultiSelect
 } from 'messagesComponents';
 
 import './styles.scss';
@@ -60,6 +61,9 @@ class Messages extends Component {
                     console.log('Reached datepicker - printing message', message);
                     return Datepicker;
                 }
+                case MESSAGES_TYPES.MULTI_SELECT: {
+                  return MultiSelect;
+              }
                 case MESSAGES_TYPES.DROPDOWN_DUAL: {
                     return DropdownDual;
                 }

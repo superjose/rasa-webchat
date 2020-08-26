@@ -48,3 +48,6 @@ export function isDatepicker(message) {
 export function isDropdownDual(message) {
     return message?.attachment?.payload?.elements?.type === 'drop_down_dual';
 }
+export function isMultiSelect(message) {
+    return message?.attachment?.payload?.elements?.type === 'multi_select';
+}

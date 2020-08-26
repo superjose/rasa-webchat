@@ -110,8 +110,6 @@ export function addCarousel(carousel) {
     };
 }
 export function addDatepicker(datepicker) {
-    console.log('addDatepicker from actions, which is', datepicker);
-    console.log('Action Type is', actions.ADD_DATEPICKER);
     return {
         type: actions.ADD_DATEPICKER,
         datepicker,
@@ -122,6 +120,13 @@ export function addDropdownDual(dropdownDual) {
         type: actions.ADD_DROPDOWN_DUAL,
         dropdownDual,
     };
+}
+
+export function addMultiSelect(multiSelect) {
+  return {
+      type: actions.ADD_MULTI_SELECT,
+      multiSelect,
+  };
 }
 
 export function addVideoSnippet(video) {
