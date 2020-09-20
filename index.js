@@ -46,7 +46,9 @@ const plugin = {
         userBackgroundColor={args.userBackgroundColor}
         assistTextColor={args.assistTextColor}
         assistBackgoundColor={args.assistBackgoundColor}
-      />, document.querySelector(args.selector)
+      />
+      , 
+      document.querySelector(args.selector)
     );
   }
 };

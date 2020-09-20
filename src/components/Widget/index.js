@@ -497,7 +497,6 @@ class Widget extends Component {
             if (!sessionId) return;
 
             // eslint-disable-next-line no-console
-            console.log('sending init payload', sessionId);
             socket.emit('user_uttered', {
                 message: initPayload,
                 customData,
@@ -567,7 +566,6 @@ class Widget extends Component {
             return;
         }
         const { customCss, ...messageClean } = message;
-        console.log('Message is', message);
         if (isDatepicker(messageClean)) {
             this.props.dispatch(addDatepicker(messageClean));
         } else if (isDropdownDual(messageClean)) {

@@ -1,5 +1,4 @@
 export function isCarousel(message) {
-    console.log('Is Carousel', message);
     return (
         Object.keys(message).includes('attachment') &&
         Object.keys(message.attachment).includes('type') &&

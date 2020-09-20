@@ -70,7 +70,7 @@ export const PROP_TYPES = {
                 value: PropTypes.string,
                 title: PropTypes.string,
                 payload: PropTypes.string,
-                entity: PropTypes.string
+                entity: PropTypes.string,
             })
         ),
         sender: senderType,
@@ -91,23 +91,26 @@ export const PROP_TYPES = {
                     }),
                 }),
                 payload: PropTypes.string,
-                entity: PropTypes.string
+                entity: PropTypes.string,
             })
         ),
         sender: senderType,
     }),
     MULTI_SELECT: ImmutablePropTypes.contains({
-      id: PropTypes.number,
-      elements: ImmutablePropTypes.listOf(
-          ImmutablePropTypes.mapContains({
-              type: PropTypes.string,
-              value: PropTypes.array,
-              payload: PropTypes.string,
-              entity: PropTypes.string
-          })
-      ),
-      sender: senderType,
-  }),
+        id: PropTypes.number,
+        elements: ImmutablePropTypes.listOf(
+            ImmutablePropTypes.mapContains({
+                type: PropTypes.string,
+                value: ImmutablePropTypes.listOf({
+                    id: PropTypes.number,
+                    name: PropTypes.string,
+                }),
+                payload: PropTypes.string,
+                entity: PropTypes.string,
+            })
+        ),
+        sender: senderType,
+    }),
 
     VIDREPLY: ImmutablePropTypes.contains({
         type: PropTypes.oneOf([MESSAGES_TYPES.TEXT, MESSAGES_TYPES.VIDREPLY.VIDEO]),

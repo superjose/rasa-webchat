@@ -5,13 +5,11 @@ import PropTypes from 'prop-types';
 
 import { addUserMessage, emitUserMessage } from 'actions';
 import { PROP_TYPES } from 'constants';
-import ThemeContext from '../../../../../../ThemeContext';
-
 
 const MultiSelect = props => {
     const { chooseReply } = props;
     const { elements } = props.message.toJS();
-    console.log('MultiSelect in JS', elements);
+    // Where value is an array of shape: [{id: string, name: string}]
     const { title, value, payload, entity } = elements;
     const [page, setPage] = useState(0);
     const [selected, setSelected] = useState([]);
@@ -46,12 +44,19 @@ const MultiSelect = props => {
 
     const continueOrSubmit = () => {
         if (page !== pages.length - 1) {
-            setPage(page+1);
+            setPage(page + 1);
             return;
-        } 
-        const values = value.join(",");
-        const formPayload = `${payload}{"${entity}": "${values}"}`;
-        chooseReply(formPayload, values);
+        }
+        const idsToSend = [];
+        const valuesToDisplay = [];
+        selected.forEach(val => {
+            const castedVal = parseInt(val);
+            idsToSend.push(castedVal.toString());
+            valuesToDisplay.push(value.find(v => v.id === castedVal).name);
+        });
+
+        const formPayload = `${payload}{"${entity}": "${idsToSend.join(',')}"}`;
+        chooseReply(formPayload, valuesToDisplay.join(','));
     };
 
     return (
@@ -59,14 +64,15 @@ const MultiSelect = props => {
             {title}
             <br />
             {pages[page].map(p => (
-                <label key={p}>
-                    {p} <input type="checkbox" value={p} onChange={onChange} />
+                <React.Fragment key={p.id}>
+                <label>
+                    {p.name} <input type="checkbox" value={p.id} onChange={onChange} />
                 </label>
+                <br/>
+                </React.Fragment>
             ))}
-            <button
-                type="button"
-                onClick={continueOrSubmit}
-            >
+            <br/>
+            <button type="button" onClick={continueOrSubmit}>
                 Continuar
             </button>
         </>
@@ -87,7 +93,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     chooseReply: (payload, title) => {
-        console.log('Reached Dispatch To Props', payload, title);
         dispatch(addUserMessage(title));
         dispatch(emitUserMessage(payload));
     },

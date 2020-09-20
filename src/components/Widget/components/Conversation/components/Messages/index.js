@@ -50,7 +50,6 @@ class Messages extends Component {
     }
 
     getComponentToRender = (message, index, isLast) => {
-        console.log('Get Component TO Render reached');
         const { params } = this.props;
         const ComponentToRender = (() => {
             switch (message.get('type')) {
@@ -58,7 +57,6 @@ class Messages extends Component {
                     return Message;
                 }
                 case MESSAGES_TYPES.DATEPICKER: {
-                    console.log('Reached datepicker - printing message', message);
                     return Datepicker;
                 }
                 case MESSAGES_TYPES.MULTI_SELECT: {

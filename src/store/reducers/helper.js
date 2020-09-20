@@ -36,7 +36,6 @@ export function createCarousel(carousel, sender) {
 }
 
 export function createDatepicker(datepicker, sender) {
-    console.log('Creates the datepicker', datepicker);
     return Map({
         type: MESSAGES_TYPES.DATEPICKER,
         component: Datepicker,

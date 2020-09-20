@@ -42,7 +42,6 @@ class Buttons extends PureComponent {
   }
 
   renderButtons(message, buttons, persit) {
-    console.log("Buttons is", buttons);
     const { isLast, linkTarget, separateButtons
     } = this.props;
     const { mainColor } = this.context;

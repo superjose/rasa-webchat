@@ -1,5 +1,5 @@
 // @ts-check
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -10,6 +10,13 @@ import ThemeContext from '../../../../../../ThemeContext';
 import './styles.scss';
 import { Dropdown } from './components';
 
+const defaultDropdown = title => [
+    {
+        label: `Seleccione ${title}`,
+        value: '',
+    },
+];
+
 const DropdownDual = props => {
     const dropdowndual = props.message.toJS();
     const { elements } = dropdowndual;
@@ -19,76 +26,59 @@ const DropdownDual = props => {
         value: { first, second },
     } = elements;
 
-    console.log('Props is', props);
-    console.log('DropdownDual in JS', dropdowndual);
-    // const { mainColor, assistTextColor } = useContext(ThemeContext);
-    // const { linkTarget } = props;
-    const [firstDropdownValue, setFirstDropdownValue] = useState('');
-    const [secondDropdownValue, setSecondDropdownValue] = useState('');
+    const [firstDropdownValue, setFirstDropdownValue] = useState();
+    const [secondDropdownValue, setSecondDropdownValue] = useState();
     const { chooseReply } = props;
 
+    // Sets the first dropdown value (The id)
     const setFirstDropdown = e => {
-        console.log('Setting first dropdown', e);
-        console.log('Setting first dropdown value', e.target.value);
-        setFirstDropdownValue(e.target.value);
+        setFirstDropdownValue(parseInt(e.target.value, 10));
     };
 
+    // Sets the second dropdown value (The id)
     const setSecondDropdown = e => {
-        console.log(e);
-        setSecondDropdownValue(e.target.value);
+        setSecondDropdownValue(parseInt(e.target.value, 10));
     };
 
     const firstDropdownOptions = useMemo(
         () =>
-            [
-                {
-                    label: `Seleccione ${first.title}`,
-                    value: '',
-                },
-            ].concat(
+            defaultDropdown(first.title).concat(
                 first.values.map(f => ({
-                    label: f,
-                    value: f,
+                    label: f.title,
+                    value: f.value,
                 }))
             ),
         [first]
     );
 
     const secondDropdownOptions = useMemo(() => {
-        const defaultDropdown = [
-            {
-                label: `Seleccione ${second.title}`,
-                value: '',
-            },
-        ];
         if (!firstDropdownValue) {
-            return defaultDropdown;
+            return defaultDropdown(second.title);
         }
-        console.log('Reached here');
-        const secondValues = second?.values[firstDropdownValue];
-        console.log('Second values is', secondValues);
-        if (!secondValues) {
-            console.error("Second Dropdown is not found from the first one");
-            return defaultDropdown;
-        }
+        const selectedObject = first.values.find(x => x.value === firstDropdownValue);
 
-        return defaultDropdown.concat(secondValues?.map(s => ({
-            label: s,
-            value: s,
+        return defaultDropdown(second.title).concat(second.values[selectedObject?.title]?.map(x => ({
+            label: x.title,
+            value: x.value,
         })));
-    }, [second, firstDropdownValue]);
+    }, [firstDropdownValue, second, first]);
 
     const submit = () => {
         if (!firstDropdownValue || !secondDropdownValue) {
             return;
         }
+        const firstDropdownObject = first.values.find(x => x.value === firstDropdownValue);
+        const secondDropdownObject = second.values[firstDropdownObject.title].find(
+            x => x.value === secondDropdownValue
+        );
+
         const firstEntity = first.entity;
         const secondEntity = second.entity;
         const formedPayload =
             payload +
             `{"${firstEntity}": "${firstDropdownValue}", "${secondEntity}": "${secondDropdownValue}"}`;
-        console.log('Formed Payload is ', formedPayload);
-        chooseReply(formedPayload, `${firstDropdownValue} ${secondDropdownValue}`);
+
+        chooseReply(formedPayload, `${firstDropdownObject?.title} ${secondDropdownObject?.title}`);
     };
 
     return (
@@ -130,7 +120,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     chooseReply: (payload, title) => {
-        console.log('Reached Dispatch To Props', payload, title);
         dispatch(addUserMessage(title));
         dispatch(emitUserMessage(payload));
     },

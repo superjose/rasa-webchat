@@ -37,7 +37,6 @@ export function addCarousel(carousel) {
   store.dispatch(actions.addCarousel(carousel));
 }
 export function addDatepicker(datepicker) {
-  console.log("Store dispatch datepicker", datepicker);
   store.dispatch(actions.addDatepicker(datepicker));
 }
 

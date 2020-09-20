@@ -9,14 +9,10 @@ import ThemeContext from '../../../../../../ThemeContext';
 import './styles.scss';
 
 const Datepicker = props => {
-    const {elements} = props.message.toJS();
+    const { elements } = props.message.toJS();
     const [date, setDate] = useState();
-    const {entity, title, payload} = elements;
+    const { entity, title, payload } = elements;
     const { chooseReply } = props;
-    console.log('Props is', props);
-    console.log('Date Picker in JS', elements);
-    // const { mainColor, assistTextColor } = useContext(ThemeContext);
-    // const { linkTarget } = props;
 
     const onChange = e => {
         const val = e.target.value;
@@ -27,7 +23,7 @@ const Datepicker = props => {
         if (!date) {
             return;
         }
-        const formPayload = payload+`{"${entity}":"${date}"}`
+        const formPayload = payload + `{"${entity}":"${date}"}`;
         chooseReply(formPayload, date);
     };
     return (
@@ -57,7 +53,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     chooseReply: (payload, title) => {
-        console.log('Reached Dispatch To Props', payload, title);
         dispatch(addUserMessage(title));
         dispatch(emitUserMessage(payload));
     },
