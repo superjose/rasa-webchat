@@ -10,11 +10,12 @@
   "source": "./index.js",
   "scripts": {
     "dev": "webpack-dev-server --config webpack.dev.js",
-    "build": "rollup -c",
-    "build:webpack": "webpack --config webpack.prod.js -p",
+    "build": "webpack --config webpack.prod.js -p",
     "build:dev": "webpack --config webpack.dev.js",
     "build:micro": "microbundle build --jsx React.createElement",
     "test": "jest",
+    "lint": "eslint src/components/Widget/components/Conversation/components/Messages/components/**/* ext.js",
+    "prepare": "npm run build",
     "release": "standard-version"
   },
   "keywords": [
@@ -26,7 +27,6 @@
   "dependencies": {
     "@popperjs/core": "^2.4.0",
     "@stomp/stompjs": "^5.4.2",
-    "global": "^4.4.0",
     "html-webpack-plugin": "^3.2.0",
     "immutable": "^3.8.2",
     "prop-types": "^15.7.2",
@@ -37,7 +37,6 @@
     "react-slick": "^0.26.1",
     "react-textarea-autosize": "^7.1.2",
     "redux": "^4.0.5",
-    "rollup": "^2.27.1",
     "slick-carousel": "^1.8.1",
     "socket.io": "^2.2.0",
     "socket.io-client": "^2.2.0",
@@ -53,7 +52,6 @@
     "@commitlint/cli": "^8.2.0",
     "@commitlint/config-conventional": "^8.2.0",
     "@rollup/plugin-babel": "^5.2.1",
-    "@rollup/plugin-commonjs": "^15.0.0",
     "@rollup/plugin-node-resolve": "^9.0.0",
     "add": "^2.0.6",
     "babel-eslint": "^10.1.0",
@@ -75,6 +73,7 @@
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-prettier": "^2.7.0",
     "eslint-plugin-react": "^6.10.3",
+    "eslint-plugin-react-hooks": "^4.1.2",
     "husky": "^3.0.7",
     "jest": "^25.5.4",
     "lodash-webpack-plugin": "^0.11.5",
@@ -85,7 +84,6 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "redux-mock-store": "^1.5.4",
-    "rollup-plugin-jsx": "^1.0.3",
     "rollup-plugin-peer-deps-external": "^2.2.3",
     "rollup-plugin-scss": "^2.6.0",
     "sass-loader": "^6.0.7",
@@ -104,8 +102,8 @@
   "jest": {
     "verbose": true,
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/mocks/fileMock.js",
-      "\\.(css|scss)$": "<rootDir>/mocks/styleMock.js"
+      "//.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/mocks/fileMock.js",
+      "//.(css|scss)$": "<rootDir>/mocks/styleMock.js"
     },
     "setupTestFrameworkScriptFile": "<rootDir>/test-setup.js"
   },

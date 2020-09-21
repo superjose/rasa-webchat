@@ -15,12 +15,14 @@ module.exports = {
   },
   "plugins": [
     "react",
-    "flowtype"
+    "flowtype",
+    "react-hooks"
   ],
   "extends": [
     "eslint:recommended",
     "airbnb",
     "plugin:react/recommended",
+    "plugin:react-hooks/recommended"
   ],
   "globals": {
     "__DEV__": true,
