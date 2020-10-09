@@ -3,7 +3,7 @@ import React, { forwardRef, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 
-// import Widget from './components/Widget';
+import Widget from './components/Widget';
 import { initStore } from './store/store';
 import socket from './socket';
 import ThemeContext from './components/Widget/ThemeContext';
@@ -128,7 +128,7 @@ const ConnectedWidget = forwardRef((props, ref) => {
           assistTextColor: props.assistTextColor,
           assistBackgoundColor: props.assistBackgoundColor }}
       >
-        {/* <Widget
+        <Widget
           ref={ref}
           initPayload={props.initPayload}
           title={props.title}
@@ -159,7 +159,7 @@ const ConnectedWidget = forwardRef((props, ref) => {
           defaultHighlightCss={props.defaultHighlightCss}
           defaultHighlightAnimation={props.defaultHighlightAnimation}
           defaultHighlightClassname={props.defaultHighlightClassname}
-        /> */}
+        />
       </ThemeContext.Provider>
     </Provider>
   );

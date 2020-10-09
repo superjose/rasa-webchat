@@ -8,6 +8,9 @@ import DocViewer from '../docViewer';
 import './styles.scss';
 import ThemeContext from '../../../../../../ThemeContext';
 
+// See https://github.com/aknuds1/html-to-react#with-custom-processing-instructions
+// for more info on the processing instructions
+
 class Message extends PureComponent {
   render() {
     const { docViewer, linkTarget } = this.props;
@@ -44,6 +47,8 @@ class Message extends PureComponent {
           {sender === 'response' ? (
             <ReactMarkdown
               className={'rw-markdown'}
+              parserOptions={{ commonmark: true }}
+              allowedTypes={(...args) => console.log(args)}
               source={text}
               linkTarget={(url) => {
                 if (!url.startsWith('mailto') && !url.startsWith('javascript')) return '_blank';
