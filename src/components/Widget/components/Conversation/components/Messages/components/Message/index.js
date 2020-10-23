@@ -47,8 +47,8 @@ class Message extends PureComponent {
           {sender === 'response' ? (
             <ReactMarkdown
               className={'rw-markdown'}
+              escapeHtml={false}
               parserOptions={{ commonmark: true }}
-              allowedTypes={(...args) => console.log(args)}
               source={text}
               linkTarget={(url) => {
                 if (!url.startsWith('mailto') && !url.startsWith('javascript')) return '_blank';

@@ -84,12 +84,14 @@ const DropdownDual = props => {
     return (
         <>
             {title}
+            <br/>
             <br />
             <Dropdown
                 label={first.title}
                 options={firstDropdownOptions}
                 onChange={setFirstDropdown}
             />
+            <br/>
             <Dropdown
                 label={second.title}
                 options={secondDropdownOptions}

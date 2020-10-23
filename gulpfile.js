@@ -19,7 +19,7 @@ gulp.task('copy-module-to-front-end', async () => {
 
  
    return gulp.src('./module/index.js')
-        .pipe(gulp.dest('../omnihealth-frontend/chat-widget/index.js'))
+        .pipe(gulp.dest('../omnihealth-frontend/chat-widget/'))
         // Pipes it to the adjacent chat widget directory. 
         // This allows us to code faster as we can skip 
         // the verification process

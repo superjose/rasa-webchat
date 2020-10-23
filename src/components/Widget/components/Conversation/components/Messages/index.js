@@ -52,7 +52,6 @@ class Messages extends Component {
     getComponentToRender = (message, index, isLast) => {
         const { params } = this.props;
         const ComponentToRender = (() => {
-            console.log("Messages type is ", message.get('type'))
             switch (message.get('type')) {
                 case MESSAGES_TYPES.TEXT: {
                     return Message;

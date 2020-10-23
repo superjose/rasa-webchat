@@ -69,6 +69,7 @@ const MultiSelect = props => {
                     {p.name} <input type="checkbox" value={p.id} onChange={onChange} />
                 </label>
                 <br/>
+                <br/>
                 </React.Fragment>
             ))}
             <br/>
