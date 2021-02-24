@@ -5,10 +5,11 @@ import PropTypes from 'prop-types';
 
 import { addUserMessage, emitUserMessage } from 'actions';
 import { PROP_TYPES } from 'constants';
-import ThemeContext from '../../../../../../ThemeContext';
 
 import './styles.scss';
 import { Dropdown } from './components';
+import { RenderedMessage } from '../RenderedMessage';
+import { RenderedButton } from '../RenderedButton';
 
 const defaultDropdown = title => [
     {
@@ -32,12 +33,12 @@ const DropdownDual = props => {
 
     // Sets the first dropdown value (The id)
     const setFirstDropdown = e => {
-        setFirstDropdownValue(parseInt(e.target.value, 10));
+        setFirstDropdownValue(e.target.value);
     };
 
     // Sets the second dropdown value (The id)
     const setSecondDropdown = e => {
-        setSecondDropdownValue(parseInt(e.target.value, 10));
+        setSecondDropdownValue(e.target.value);
     };
 
     const firstDropdownOptions = useMemo(
@@ -55,21 +56,26 @@ const DropdownDual = props => {
         if (!firstDropdownValue) {
             return defaultDropdown(second.title);
         }
-        const selectedObject = first.values.find(x => x.value === firstDropdownValue);
-
-        return defaultDropdown(second.title).concat(second.values[selectedObject?.title]?.map(x => ({
-            label: x.title,
-            value: x.value,
-        })));
+        // Note the weak comparison. This is done because we can support both strings and ints.
+        // They will all be passed as strings, and we need to do 1 == "1"
+        const selectedObject = first.values.find(x => x.value == firstDropdownValue);
+        return defaultDropdown(second.title).concat(
+            second.values[selectedObject?.title]?.map(x => ({
+                label: x.title,
+                value: x.value,
+            }))
+        );
     }, [firstDropdownValue, second, first]);
 
     const submit = () => {
         if (!firstDropdownValue || !secondDropdownValue) {
             return;
         }
-        const firstDropdownObject = first.values.find(x => x.value === firstDropdownValue);
+        // Note the weak comparison. This is done because we can support both strings and ints.
+        // They will all be passed as strings, and we need to do 1 == "1"
+        const firstDropdownObject = first.values.find(x => x.value == firstDropdownValue);
         const secondDropdownObject = second.values[firstDropdownObject.title].find(
-            x => x.value === secondDropdownValue
+            x => x.value == secondDropdownValue
         );
 
         const firstEntity = first.entity;
@@ -83,27 +89,24 @@ const DropdownDual = props => {
 
     return (
         <>
-            {title}
-            <br/>
-            <br />
+            <RenderedMessage>{title}</RenderedMessage>
             <Dropdown
                 label={first.title}
                 options={firstDropdownOptions}
                 onChange={setFirstDropdown}
             />
-            <br/>
             <Dropdown
                 label={second.title}
                 options={secondDropdownOptions}
                 onChange={setSecondDropdown}
             />
-            <button
+            <RenderedButton
                 type="button"
                 onClick={submit}
                 disabled={!firstDropdownValue || !secondDropdownValue}
             >
                 Enviar
-            </button>
+            </RenderedButton>
         </>
     );
 };

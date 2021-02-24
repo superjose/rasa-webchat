@@ -144,6 +144,7 @@ class Widget extends Component {
                     dispatch(addUserMessage('hidden', tooltipSelector, true));
                 }
                 if (tooltipSelector) {
+                    console.log('Closing the chat');
                     dispatch(closeChat());
                     showTooltip(true);
                 }
@@ -236,6 +237,7 @@ class Widget extends Component {
             dispatch(openChat());
         }
         if (forceClose) {
+            console.log('Closing the chat');
             dispatch(closeChat());
         }
         if (pageEventCallbacks) {
@@ -554,6 +556,8 @@ class Widget extends Component {
             this.props.dispatch(showTooltip(false));
         }
         clearTimeout(this.tooltipTimeout);
+        console.log("This props", this.props);
+        this.props.onToggleChat(isChatOpen)
         dispatch(toggleChat());
     }
 
@@ -570,10 +574,9 @@ class Widget extends Component {
             this.props.dispatch(addDatepicker(messageClean));
         } else if (isDropdownDual(messageClean)) {
             this.props.dispatch(addDropdownDual(messageClean));
-        } else if(isMultiSelect(messageClean)) {
-          this.props.dispatch(addMultiSelect(messageClean));
-        }        
-        else if (isText(messageClean)) {
+        } else if (isMultiSelect(messageClean)) {
+            this.props.dispatch(addMultiSelect(messageClean));
+        } else if (isText(messageClean)) {
             this.props.dispatch(addResponseMessage(messageClean.text));
         } else if (isButtons(messageClean)) {
             this.props.dispatch(addButtons(messageClean));
@@ -661,6 +664,9 @@ const mapStateToProps = state => ({
 });
 
 Widget.propTypes = {
+    // Custom Made:
+    onToggleChat: PropTypes.func,
+    // Originals
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     customData: PropTypes.shape({}),
     subtitle: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
@@ -699,7 +705,7 @@ Widget.propTypes = {
 };
 
 Widget.defaultProps = {
-    isChatOpen: false,
+    isChatOpen: true,
     isChatVisible: true,
     fullScreenMode: false,
     connectOn: 'mount',

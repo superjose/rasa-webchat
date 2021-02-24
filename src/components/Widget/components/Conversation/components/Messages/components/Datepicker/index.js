@@ -1,21 +1,33 @@
-import React, { useRef, useState, useContext } from 'react';
+// @ts-check
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
+import { makeStyles } from '@material-ui/core';
 import { addUserMessage, emitUserMessage } from 'actions';
 import { PROP_TYPES } from 'constants';
-import ThemeContext from '../../../../../../ThemeContext';
+import esLocale from 'date-fns/locale/es';
 
 import './styles.scss';
+/**
+ * We tried using this. But the chatbot was showing it on top.
+ * We do not know the sorcery, but setting the z-index wasn't working
+ *
+ * Therefore, as we have little time, we continued working.
+ */
+// import { MaterialPicker } from './components/MaterialPicker';
+import { format } from 'date-fns';
+import { RenderedButton } from '../RenderedButton';
 
 const Datepicker = props => {
     const { elements } = props.message.toJS();
     const [date, setDate] = useState();
-    const { entity, title, payload } = elements;
+    const { entity, title, payload, disableFuture } = elements;
+    console.log('Elements is ', elements);
     const { chooseReply } = props;
 
     const onChange = e => {
         const val = e.target.value;
+        console.log('Val is', val);
         setDate(val);
     };
 
@@ -26,15 +38,23 @@ const Datepicker = props => {
         const formPayload = payload + `{"${entity}":"${date}"}`;
         chooseReply(formPayload, date);
     };
+    const maxDate = format(new Date(), 'yyyy-mm-dd', { locale: esLocale });
+    console.log('Max Date is', maxDate);
     return (
         <>
             <label>
                 {title}
-                <input type="date" onChange={onChange} />
+                {/* <MaterialPicker
+                    handleDateChange={onChange}
+                    date={date}
+                    disableFuture={disableFuture}
+                /> */}
+
+                <input type="date" onChange={onChange} max={maxDate} />
             </label>
-            <button type="button" disabled={!date} onClick={onSubmit}>
+            <RenderedButton disabled={!date} onClick={onSubmit}>
                 Enviar
-            </button>
+            </RenderedButton>
         </>
     );
 };

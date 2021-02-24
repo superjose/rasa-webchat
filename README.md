@@ -1,3 +1,15 @@
+# Rasa Webchat adapted for OmniHealth. 
+
+This rasa webchat was originally built from BotFront's [rasa webchat](https://github.com/mrbot-ai/rasa-webchat.gi), It was extended to support custom components
+according to OmniHealth requirements (As I couldn't figure out how to make it work without it.)
+
+## How to use. 
+This project is a build project
+
+
+<hr />
+# Original Documentation down below
+
 <p align="center">
 
 <a href="https://www.npmjs.com/package/botfront">
