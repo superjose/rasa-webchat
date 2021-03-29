@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-
+import './styles.scss';
 /**
  * A custom component that wraps the rendered button
  * This shouldn't be done this way, but time was lacking and
@@ -14,7 +14,7 @@ export const RenderedButton = memo(props => {
     return (
         <>
             <button
-                className={'rw-reply'}
+                className={`rw-reply ${disabled ? 'rw-disabled': ''}`}
                 type={type || 'button'}
                 disabled={disabled}
                 onClick={onClick}

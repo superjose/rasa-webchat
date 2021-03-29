@@ -160,6 +160,10 @@ const ConnectedWidget = forwardRef((props, ref) => {
                     defaultHighlightCss={props.defaultHighlightCss}
                     defaultHighlightAnimation={props.defaultHighlightAnimation}
                     defaultHighlightClassname={props.defaultHighlightClassname}
+                    /**
+                     * Custom Action Button
+                     */
+                    onButtonAction={props.onButtonAction}
                 />
             </ThemeContext.Provider>
         </Provider>

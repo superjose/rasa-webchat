@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core';
 import { addUserMessage, emitUserMessage } from 'actions';
 import { PROP_TYPES } from 'constants';
 import esLocale from 'date-fns/locale/es';
@@ -22,12 +21,10 @@ const Datepicker = props => {
     const { elements } = props.message.toJS();
     const [date, setDate] = useState();
     const { entity, title, payload, disableFuture } = elements;
-    console.log('Elements is ', elements);
     const { chooseReply } = props;
 
     const onChange = e => {
         const val = e.target.value;
-        console.log('Val is', val);
         setDate(val);
     };
 
@@ -39,7 +36,6 @@ const Datepicker = props => {
         chooseReply(formPayload, date);
     };
     const maxDate = format(new Date(), 'yyyy-mm-dd', { locale: esLocale });
-    console.log('Max Date is', maxDate);
     return (
         <>
             <label>

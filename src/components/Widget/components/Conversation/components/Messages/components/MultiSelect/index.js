@@ -5,6 +5,12 @@ import PropTypes from 'prop-types';
 
 import { addUserMessage, emitUserMessage } from 'actions';
 import { PROP_TYPES } from 'constants';
+import { RenderedMessage } from '../RenderedMessage';
+import { RenderedButton } from '../RenderedButton';
+
+import './styles.scss';
+
+const NUMBER_PER_PAGE = 5;
 
 const MultiSelect = props => {
     const { chooseReply } = props;
@@ -15,31 +21,32 @@ const MultiSelect = props => {
     const [selected, setSelected] = useState([]);
 
     // Splits the list into different groups:
-    const pages = useMemo(() => {
+    const { pages, totalPages } = useMemo(() => {
         const _pages = [];
         if (!value) {
-            return _pages;
+            return { pages: [], totalPages: 0 };
         }
-        // We get 4 elements per page.
-        // This number (4) could be a prop.
-        const totalPages = Math.ceil(value.length / 4);
+        // We get 5 elements per page.
+        // This number (5) could be a prop.
+        const totalPages = Math.min(Math.ceil(value.length / NUMBER_PER_PAGE), NUMBER_PER_PAGE);
 
         for (let i = 0; i < totalPages; i++) {
-            const _page = value.slice(i * 4, (i + 1) * 4);
+            const _page = value.slice(i * NUMBER_PER_PAGE, (i + 1) * NUMBER_PER_PAGE);
             _pages.push(_page);
         }
-        return _pages;
+        return { pages: _pages, totalPages };
     }, [value]);
 
     const onChange = e => {
         const val = e.target.value;
-        const valueIndex = selected.indexOf(val);
-        if (valueIndex === -1) {
-            setSelected(selected.concat(val));
-            return;
-        }
-        const removed = selected.splice(valueIndex, -1);
-        setSelected(removed);
+        setSelected(_selected => {
+            const copy = [..._selected];
+            const valueIndex = copy.indexOf(val);
+            if(valueIndex === -1) {
+                return copy.concat(val);
+            }
+            return copy.filter(c => c !== val);
+        });
     };
 
     const continueOrSubmit = () => {
@@ -56,27 +63,52 @@ const MultiSelect = props => {
         });
 
         const formPayload = `${payload}{"${entity}": "${idsToSend.join(',')}"}`;
-        chooseReply(formPayload, valuesToDisplay.join(','));
+        chooseReply(formPayload, valuesToDisplay.join(', '));
     };
 
+    const goBack = () => {
+        setPage(_page => {
+            return _page === 0 ? 0 : _page - 1;
+        });
+    };
+    const isLastPage = pages.length - 1 === page;
+    const isFirstPage = page === 0;
+
     return (
-        <>
-            {title}
+        <div>
+            <RenderedMessage> {title}</RenderedMessage>
+            <div className="omni-multiselect">
+                {pages[page].map(p => (
+                    <div key={p.id}>
+                        <label>
+                            <input
+                                id={p.id}
+                                type="checkbox"
+                                checked={(() => {
+                                    const isSelected = selected.includes(p.id.toString());
+                                    return isSelected;
+                                })()}
+                                value={p.id}
+                                onChange={onChange}
+                            />
+                            {p.name}
+                        </label>
+                    </div>
+                ))}
+            </div>
             <br />
-            {pages[page].map(p => (
-                <React.Fragment key={p.id}>
-                <label>
-                    {p.name} <input type="checkbox" value={p.id} onChange={onChange} />
-                </label>
-                <br/>
-                <br/>
-                </React.Fragment>
-            ))}
-            <br/>
-            <button type="button" onClick={continueOrSubmit}>
-                Continuar
-            </button>
-        </>
+            <div>
+                Pág. {page + 1}/{totalPages}
+            </div>
+            <div style={{ display: 'flex' }}>
+                <RenderedButton type="button" onClick={goBack} disabled={isFirstPage}>
+                    Atrás
+                </RenderedButton>
+                <RenderedButton type="button" onClick={continueOrSubmit}>
+                    {isLastPage ? `Enviar` : 'Continuar'}
+                </RenderedButton>
+            </div>
+        </div>
     );
 };
 

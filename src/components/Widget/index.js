@@ -556,7 +556,6 @@ class Widget extends Component {
             this.props.dispatch(showTooltip(false));
         }
         clearTimeout(this.tooltipTimeout);
-        console.log("This props", this.props);
         this.props.onToggleChat(isChatOpen)
         dispatch(toggleChat());
     }
@@ -645,6 +644,10 @@ class Widget extends Component {
                 displayUnreadCount={this.props.displayUnreadCount}
                 showMessageDate={this.props.showMessageDate}
                 tooltipPayload={this.props.tooltipPayload}
+                /**
+                 * Custom action made by Codemera
+                 */
+                onButtonAction={this.props.onButtonAction}
             />
         );
     }
@@ -702,6 +705,14 @@ Widget.propTypes = {
     defaultHighlightCss: PropTypes.string,
     defaultHighlightClassname: PropTypes.string,
     messages: ImmutablePropTypes.listOf(ImmutablePropTypes.map),
+    /**
+     * This is a custom action created by the front-end team @ Codemera
+     * to provide the ability to trigger a custom function whenever
+     * the "button_action" type of button was passed. 
+     * 
+     * This is how we connect the agent with the user.
+     */
+    onButtonAction:  PropTypes.func,
 };
 
 Widget.defaultProps = {

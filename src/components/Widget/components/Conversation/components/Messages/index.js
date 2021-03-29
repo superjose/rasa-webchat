@@ -12,7 +12,7 @@ import {
     Buttons,
     Datepicker,
     DropdownDual,
-    MultiSelect
+    MultiSelect,
 } from 'messagesComponents';
 
 import './styles.scss';
@@ -60,8 +60,8 @@ class Messages extends Component {
                     return Datepicker;
                 }
                 case MESSAGES_TYPES.MULTI_SELECT: {
-                  return MultiSelect;
-              }
+                    return MultiSelect;
+                }
                 case MESSAGES_TYPES.DROPDOWN_DUAL: {
                     return DropdownDual;
                 }
@@ -89,7 +89,15 @@ class Messages extends Component {
         if (message.get('type') === 'component') {
             return <ComponentToRender id={index} {...message.get('props')} isLast={isLast} />;
         }
-        return <ComponentToRender id={index} params={params} message={message} isLast={isLast} />;
+        return (
+            <ComponentToRender
+                id={index}
+                params={params}
+                message={message}
+                isLast={isLast}
+                onButtonAction={this.props.onButtonAction}
+            />
+        );
     };
 
     render() {

@@ -88,18 +88,20 @@ const DropdownDual = props => {
     };
 
     return (
-        <>
+        <div>
             <RenderedMessage>{title}</RenderedMessage>
-            <Dropdown
-                label={first.title}
-                options={firstDropdownOptions}
-                onChange={setFirstDropdown}
-            />
-            <Dropdown
-                label={second.title}
-                options={secondDropdownOptions}
-                onChange={setSecondDropdown}
-            />
+            <div>
+                <Dropdown
+                    label={first.title}
+                    options={firstDropdownOptions}
+                    onChange={setFirstDropdown}
+                />
+                <Dropdown
+                    label={second.title}
+                    options={secondDropdownOptions}
+                    onChange={setSecondDropdown}
+                />
+            </div>
             <RenderedButton
                 type="button"
                 onClick={submit}
@@ -107,7 +109,7 @@ const DropdownDual = props => {
             >
                 Enviar
             </RenderedButton>
-        </>
+        </div>
     );
 };
 

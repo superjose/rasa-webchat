@@ -41,6 +41,7 @@ const WidgetLayout = (props) => {
           closeImage={props.closeImage}
           customComponent={props.customComponent}
           showMessageDate={props.showMessageDate}
+          onButtonAction={props.onButtonAction}
         />
       )}
       {!props.embedded && (
