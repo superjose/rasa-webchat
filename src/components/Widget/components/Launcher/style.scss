@@ -33,13 +33,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: $tertiary;
+  // background-color: $tertiary;
+  // Modified
+  background-color: $primary-v2;
   border: 0;
   border-radius: 50%;
   box-shadow: 0px 2px 10px 1px $grey-3;
-  height: 60px;
+  // Modified
+  height: 56px;
+  width: 56px;
   margin: 0;
-  width: 60px;
+  // Originals
+  // height: 60px;
+  // width: 60px;
   box-sizing: border-box;
 
   &:focus {

@@ -16,7 +16,10 @@
 ;
 
   overflow: hidden;
+  // Original
   width: 370px;
+  // Matches the other chatbot
+  // width: 400px;
 }
 
 .#{$namespace}slide-out {

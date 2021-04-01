@@ -22,8 +22,6 @@ class Buttons extends PureComponent {
         this.handleClick = this.handleClick.bind(this);
 
         const { message, getChosenReply, inputState, id } = this.props;
-        console.log('This props are', this.props);
-        console.log('onButtonAction is', this.props?.onButtonAction);
         const hint = message.get('hint');
         const chosenReply = getChosenReply(id);
         if (!chosenReply && !inputState) {
@@ -58,7 +56,6 @@ class Buttons extends PureComponent {
                 {(isLast || persit) && (
                     <div className="rw-replies">
                         {buttons.map((reply, index) => {
-                            console.log('Reply is', reply);
                             if (reply.get('type') === 'web_url') {
                                 return (
                                     <a

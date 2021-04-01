@@ -610,7 +610,7 @@ class Widget extends Component {
     }
 
     handleMessageSubmit(event) {
-        event.preventDefault();
+        // event.preventDefault();
         const userUttered = event.target.message.value;
         if (userUttered) {
             this.props.dispatch(addUserMessage(userUttered));
